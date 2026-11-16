@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест: Формы государства | Подготовка к ОГЭ</title>
+    <style>
+        /* CSS переменные */
+        :root {
+            --primary: #2c5282;
+            --primary-dark: #1e3a5f;
+            --secondary: #4a5568;
+            --success: #38a169;
+            --error: #e53e3e;
+            --warning: #dd6b20;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+        }
+
+        /* Сброс и базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Основной контейнер */
+        #app {
+            width: 100%;
+            max-width: 700px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        /* Заголовок */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Контент */
+        .content {
+            padding: 32px 24px;
+        }
+
+        /* Экран старта */
+        .start-screen {
+            text-align: center;
+        }
+
+        .start-screen h2 {
+            font-size: 1.75rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .start-screen p {
+            color: var(--text-light);
+            margin-bottom: 24px;
+            font-size: 1rem;
+        }
+
+        .info-box {
+            background: var(--bg);
+            border-left: 4px solid var(--primary);
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: left;
+            border-radius: 4px;
+        }
+
+        .info-box h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-box li {
+            padding: 4px 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .info-box li:before {
+            content: "✓ ";
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(44, 82, 130, 0.3);
+        }
+
+        .btn-primary:focus-visible {
+            outline: 3px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #2d3748;
+        }
+
+        /* Прогресс-бар */
+        .progress-container {
+            margin-bottom: 24px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        /* Вопрос */
+        .question-card {
+            margin-bottom: 24px;
+        }
+
+        .question-number {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        /* Варианты ответов */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-height: 44px;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: #ebf4ff;
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: #ebf4ff;
+        }
+
+        .option.correct {
+            border-color: var(--success);
+            background: #f0fff4;
+        }
+
+        .option.incorrect {
+            border-color: var(--error);
+            background: #fff5f5;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .option label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        /* Навигация */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Экран результата */
+        .result-screen {
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .result-title {
+            font-size: 1.75rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .result-score {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 24px 0;
+        }
+
+        .result-message {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .result-details {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .result-details h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .result-details p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.25rem;
+            }
+
+            .content {
+                padding: 24px 16px;
+            }
+
+            .start-screen h2 {
+                font-size: 1.5rem;
+            }
+
+            .question-text {
+                font-size: 1rem;
+            }
+
+            .result-score {
+                font-size: 2rem;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <main id="app" role="main" aria-label="Тест по формам государства"></main>
+
+    <script>
+        // Константы: вопросы теста
+        const QUESTIONS = [
+            {
+                id: 1,
+                text: "Что является характерным признаком монархии?",
+                options: [
+                    "Выборность главы государства",
+                    "Передача власти по наследству",
+                    "Разделение властей",
+                    "Многопартийность"
+                ],
+                correct: 1
+            },
+            {
+                id: 2,
+                text: "Какая форма правления характеризуется выборностью главы государства на определённый срок?",
+                options: [
+                    "Абсолютная монархия",
+                    "Теократия",
+                    "Республика",
+                    "Федерация"
+                ],
+                correct: 2
+            },
+            {
+                id: 3,
+                text: "Что такое унитарное государство?",
+                options: [
+                    "Государство, состоящее из независимых субъектов",
+                    "Целостное государство с единой конституцией и системой власти",
+                    "Союз суверенных государств",
+                    "Государство с двумя формами власти"
+                ],
+                correct: 1
+            },
+            {
+                id: 4,
+                text: "Какой политический режим характеризуется свободными выборами и защитой прав человека?",
+                options: [
+                    "Тоталитарный",
+                    "Авторитарный",
+                    "Демократический",
+                    "Консервативный"
+                ],
+                correct: 2
+            },
+            {
+                id: 5,
+                text: "Федерация отличается от унитарного государства тем, что:",
+                options: [
+                    "Имеет единую систему законодательства",
+                    "Состоит из относительно самостоятельных территориальных образований",
+                    "Не имеет регионального деления",
+                    "Управляется одним центром власти"
+                ],
+                correct: 1
+            },
+            {
+                id: 6,
+                text: "Какой признак характерен для тоталитарного режима?",
+                options: [
+                    "Политический плюрализм",
+                    "Свобода СМИ",
+                    "Полный контроль государства над всеми сферами жизни",
+                    "Независимая судебная система"
+                ],
+                correct: 2
+            },
+            {
+                id: 7,
+                text: "Парламентская республика отличается от президентской тем, что:",
+                options: [
+                    "Президент избирается народом",
+                    "Правительство формируется парламентом и перед ним ответственно",
+                    "Отсутствует парламент",
+                    "Президент имеет неограниченные полномочия"
+                ],
+                correct: 1
+            },
+            {
+                id: 8,
+                text: "Что такое конфедерация?",
+                options: [
+                    "Единое централизованное государство",
+                    "Временный союз суверенных государств для достижения конкретных целей",
+                    "Государство с федеративным устройством",
+                    "Монархическая форма правления"
+                ],
+                correct: 1
+            },
+            {
+                id: 9,
+                text: "Какой элемент НЕ входит в понятие «форма государства»?",
+                options: [
+                    "Форма правления",
+                    "Форма государственного устройства",
+                    "Политический режим",
+                    "Экономическая система"
+                ],
+                correct: 3
+            },
+            {
+                id: 10,
+                text: "Авторитарный режим характеризуется:",
+                options: [
+                    "Полным контролем над экономикой и личной жизнью",
+                    "Ограничением политической свободы при сохранении экономической свободы",
+                    "Полной свободой политической деятельности",
+                    "Отсутствием государства как такового"
+                ],
+                correct: 1
+            }
+        ];
+
+        // Состояние приложения
+        let state = {
+            screen: 'start', // start, quiz, result
+            currentQuestion: 0,
+            answers: [],
+            score: 0
+        };
+
+        // Рендер экрана старта
+        function renderStartScreen() {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="header">
+                    <h1>Подготовка к ОГЭ</h1>
+                    <p>Обществознание | 9 класс</p>
+                </div>
+                <div class="content start-screen fade-in">
+                    <h2>Формы государства</h2>
+                    <p>Проверьте свои знания по теме "Формы государства"</p>
+                    <div class="info-box">
+                        <h3>Информация о тесте:</h3>
+                        <ul>
+                            <li>10 вопросов с выбором ответа</li>
+                            <li>Время прохождения: 10-15 минут</li>
+                            <li>Результат сразу после завершения</li>
+                            <li>Возможность повторного прохождения</li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary" id="startBtn" aria-label="Начать тест">
+                        Начать тест
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('startBtn').addEventListener('click', startQuiz);
+        }
+
+        // Рендер экрана теста
+        function renderQuizScreen() {
+            const app = document.getElementById('app');
+            const question = QUESTIONS[state.currentQuestion];
+            const progress = ((state.currentQuestion + 1) / QUESTIONS.length) * 100;
+            const selectedAnswer = state.answers[state.currentQuestion];
+
+            app.innerHTML = `
+                <div class="header">
+                    <h1>Формы государства</h1>
+                    <p>Вопрос ${state.currentQuestion + 1} из ${QUESTIONS.length}</p>
+                </div>
+                <div class="content fade-in">
+                    <div class="progress-container">
+                        <div class="progress-text">
+                            <span>Прогресс</span>
+                            <span>${Math.round(progress)}%</span>
+                        </div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-number">Вопрос ${question.id}</div>
+                        <div class="question-text">${question.text}</div>
+                        <div class="options" role="radiogroup" aria-label="Варианты ответов">
+                            ${question.options.map((option, index) => `
+                                <div class="option ${selectedAnswer === index ? 'selected' : ''}" data-index="${index}">
+                                    <input type="radio" 
+                                           id="option${index}" 
+                                           name="answer" 
+                                           value="${index}"
+                                           ${selectedAnswer === index ? 'checked' : ''}>
+                                    <label for="option${index}">${option}</label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="navigation">
+                        <button class="btn btn-secondary" id="prevBtn" ${state.currentQuestion === 0 ? 'disabled' : ''} aria-label="Предыдущий вопрос">
+                            Назад
+                        </button>
+                        <button class="btn btn-primary" id="nextBtn" aria-label="${state.currentQuestion === QUESTIONS.length - 1 ? 'Завершить тест' : 'Следующий вопрос'}">
+                            ${state.currentQuestion === QUESTIONS.length - 1 ? 'Завершить' : 'Далее'}
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Обработчики событий
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.index);
+                    selectAnswer(index);
+                });
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', previousQuestion);
+            document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        }
+
+        // Рендер экрана результата
+        function renderResultScreen() {
+            const app = document.getElementById('app');
+            const percentage = Math.round((state.score / QUESTIONS.length) * 100);
+            let icon, title, message;
+
+            if (percentage >= 80) {
+                icon = '🎉';
+                title = 'Отличный результат!';
+                message = 'Вы прекрасно разбираетесь в теме "Формы государства". Так держать!';
+            } else if (percentage >= 60) {
+                icon = '👍';
+                title = 'Хороший результат!';
+                message = 'У вас хорошие знания, но есть над чем поработать.';
+            } else if (percentage >= 40) {
+                icon = '📚';
+                title = 'Удовлетворительно';
+                message = 'Рекомендуем повторить тему "Формы государства".';
+            } else {
+                icon = '💪';
+                title = 'Нужно подготовиться';
+                message = 'Не расстраивайтесь! Изучите тему ещё раз и попробуйте снова.';
+            }
+
+            app.innerHTML = `
+                <div class="header">
+                    <h1>Результаты теста</h1>
+                    <p>Формы государства</p>
+                </div>
+                <div class="content result-screen fade-in">
+                    <div class="result-icon">${icon}</div>
+                    <h2 class="result-title">${title}</h2>
+                    <div class="result-score">${state.score} / ${QUESTIONS.length}</div>
+                    <p class="result-message">${message}</p>
+                    <div class="result-details">
+                        <h3>Статистика:</h3>
+                        <p>Правильных ответов: <strong>${state.score}</strong></p>
+                        <p>Неправильных ответов: <strong>${QUESTIONS.length - state.score}</strong></p>
+                        <p>Процент выполнения: <strong>${percentage}%</strong></p>
+                    </div>
+                    <button class="btn btn-primary" id="restartBtn" aria-label="Пройти тест заново">
+                        Пройти тест заново
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('restartBtn').addEventListener('click', restartQuiz);
+        }
+
+        // Обработчики
+
+        // Начать тест
+        function startQuiz() {
+            state.screen = 'quiz';
+            state.currentQuestion = 0;
+            state.answers = new Array(QUESTIONS.length).fill(null);
+            state.score = 0;
+            renderQuizScreen();
+        }
+
+        // Выбрать ответ
+        function selectAnswer(index) {
+            state.answers[state.currentQuestion] = index;
+            renderQuizScreen();
+        }
+
+        // Следующий вопрос
+        function nextQuestion() {
+            if (state.answers[state.currentQuestion] === null) {
+                alert('Пожалуйста, выберите ответ');
+                return;
+            }
+
+            if (state.currentQuestion < QUESTIONS.length - 1) {
+                state.currentQuestion++;
+                renderQuizScreen();
+            } else {
+                // Завершение теста
+                calculateScore();
+                state.screen = 'result';
+                renderResultScreen();
+            }
+        }
+
+        // Предыдущий вопрос
+        function previousQuestion() {
+            if (state.currentQuestion > 0) {
+                state.currentQuestion--;
+                renderQuizScreen();
+            }
+        }
+
+        // Подсчёт баллов
+        function calculateScore() {
+            state.score = 0;
+            state.answers.forEach((answer, index) => {
+                if (answer === QUESTIONS[index].correct) {
+                    state.score++;
+                }
+            });
+        }
+
+        // Перезапуск теста
+        function restartQuiz() {
+            state.screen = 'start';
+            state.currentQuestion = 0;
+            state.answers = [];
+            state.score = 0;
+            renderStartScreen();
+        }
+
+        // Инициализация
+        function init() {
+            renderStartScreen();
+        }
+
+        // Запуск приложения
+        init();
+    </script>
+</body>
+</html>
